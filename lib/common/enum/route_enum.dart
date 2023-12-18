@@ -1,0 +1,4 @@
+enum RouteEnum {
+  homeView,
+  splashView,
+}
