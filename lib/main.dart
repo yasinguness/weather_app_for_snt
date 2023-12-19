@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Weather App',
       theme: CustomThemeData.weatherTheme,
-      initialRoute: RouteEnum.splashView.route,
+      initialRoute: RouteEnum.homeView.route,
       onGenerateRoute: router.generateRoute,
     );
   }
