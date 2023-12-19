@@ -16,7 +16,7 @@ class _HomeViewState extends State<HomeView> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return BaseView(
+    return BaseView<HomeViewModel>(
         builder: (context, model, child) => Scaffold(
               appBar: AppBar(),
               bottomNavigationBar:

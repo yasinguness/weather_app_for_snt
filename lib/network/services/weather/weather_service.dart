@@ -9,9 +9,9 @@ class WeatherService extends BaseService {
     return response is List<WeatherModel> ? response : <WeatherModel>[];
   }
 
-  Future<List<WeatherModel>> dailyWeather() async {
-    final response = await service.make<WeatherModel>("?latitude=52.52&longitude=13.41&daily=temperature_2m_max",
+  Future<WeatherModel> dailyWeather(double lat, double long) async {
+    final response = await service.make<WeatherModel>("?latitude=$lat&longitude=$long&daily=temperature_2m_max",
         parserModel: WeatherModel(), method: MethodType.GET);
-    return response is List<WeatherModel> ? response : <WeatherModel>[];
+    return WeatherModel.fromJson(response as Map<String, dynamic>);
   }
 }

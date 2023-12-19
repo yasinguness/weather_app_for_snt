@@ -18,11 +18,11 @@ class WeatherModel extends BaseModel {
   @JsonKey(name: "timezone_abbreviation")
   String? timezoneAbbreviation;
   @JsonKey(name: "elevation")
-  int? elevation;
-  @JsonKey(name: "hourly_units")
-  HourlyUnits? hourlyUnits;
-  @JsonKey(name: "hourly")
-  Hourly? hourly;
+  double? elevation;
+  @JsonKey(name: "daily_units")
+  DailyUnits? dailyUnits;
+  @JsonKey(name: "daily")
+  Daily? daily;
 
   WeatherModel({
     this.latitude,
@@ -32,8 +32,8 @@ class WeatherModel extends BaseModel {
     this.timezone,
     this.timezoneAbbreviation,
     this.elevation,
-    this.hourlyUnits,
-    this.hourly,
+    this.dailyUnits,
+    this.daily,
   });
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) => _$WeatherModelFromJson(json);
@@ -46,43 +46,43 @@ class WeatherModel extends BaseModel {
 }
 
 @JsonSerializable()
-class Hourly extends BaseModel {
+class Daily extends BaseModel {
   @JsonKey(name: "time")
   List<String>? time;
-  @JsonKey(name: "temperature_2m")
+  @JsonKey(name: "temperature_2m_max")
   List<double>? temperature2M;
 
-  Hourly({
+  Daily({
     this.time,
     this.temperature2M,
   });
 
-  factory Hourly.fromJson(Map<String, dynamic> json) => _$HourlyFromJson(json);
+  factory Daily.fromJson(Map<String, dynamic> json) => _$DailyFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$HourlyToJson(this);
+  Map<String, dynamic> toJson() => _$DailyToJson(this);
 
   @override
-  fromJson(Map<String, dynamic> json) => _$HourlyFromJson(json);
+  fromJson(Map<String, dynamic> json) => _$DailyFromJson(json);
 }
 
 @JsonSerializable()
-class HourlyUnits extends BaseModel {
+class DailyUnits extends BaseModel {
   @JsonKey(name: "time")
   String? time;
-  @JsonKey(name: "temperature_2m")
+  @JsonKey(name: "temperature_2m_max")
   String? temperature2M;
 
-  HourlyUnits({
+  DailyUnits({
     this.time,
     this.temperature2M,
   });
 
-  factory HourlyUnits.fromJson(Map<String, dynamic> json) => _$HourlyUnitsFromJson(json);
+  factory DailyUnits.fromJson(Map<String, dynamic> json) => _$DailyUnitsFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$HourlyUnitsToJson(this);
+  Map<String, dynamic> toJson() => _$DailyUnitsToJson(this);
 
   @override
-  fromJson(Map<String, dynamic> json) => _$HourlyFromJson(json);
+  fromJson(Map<String, dynamic> json) => _$DailyUnitsFromJson(json);
 }

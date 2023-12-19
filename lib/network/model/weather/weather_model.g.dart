@@ -13,13 +13,13 @@ WeatherModel _$WeatherModelFromJson(Map<String, dynamic> json) => WeatherModel(
       utcOffsetSeconds: json['utc_offset_seconds'] as int?,
       timezone: json['timezone'] as String?,
       timezoneAbbreviation: json['timezone_abbreviation'] as String?,
-      elevation: json['elevation'] as int?,
-      hourlyUnits: json['hourly_units'] == null
+      elevation: (json['elevation'] as num?)?.toDouble(),
+      dailyUnits: json['daily_units'] == null
           ? null
-          : HourlyUnits.fromJson(json['hourly_units'] as Map<String, dynamic>),
-      hourly: json['hourly'] == null
+          : DailyUnits.fromJson(json['daily_units'] as Map<String, dynamic>),
+      daily: json['daily'] == null
           ? null
-          : Hourly.fromJson(json['hourly'] as Map<String, dynamic>),
+          : Daily.fromJson(json['daily'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$WeatherModelToJson(WeatherModel instance) =>
@@ -31,29 +31,29 @@ Map<String, dynamic> _$WeatherModelToJson(WeatherModel instance) =>
       'timezone': instance.timezone,
       'timezone_abbreviation': instance.timezoneAbbreviation,
       'elevation': instance.elevation,
-      'hourly_units': instance.hourlyUnits,
-      'hourly': instance.hourly,
+      'daily_units': instance.dailyUnits,
+      'daily': instance.daily,
     };
 
-Hourly _$HourlyFromJson(Map<String, dynamic> json) => Hourly(
+Daily _$DailyFromJson(Map<String, dynamic> json) => Daily(
       time: (json['time'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      temperature2M: (json['temperature_2m'] as List<dynamic>?)
+      temperature2M: (json['temperature_2m_max'] as List<dynamic>?)
           ?.map((e) => (e as num).toDouble())
           .toList(),
     );
 
-Map<String, dynamic> _$HourlyToJson(Hourly instance) => <String, dynamic>{
+Map<String, dynamic> _$DailyToJson(Daily instance) => <String, dynamic>{
       'time': instance.time,
-      'temperature_2m': instance.temperature2M,
+      'temperature_2m_max': instance.temperature2M,
     };
 
-HourlyUnits _$HourlyUnitsFromJson(Map<String, dynamic> json) => HourlyUnits(
+DailyUnits _$DailyUnitsFromJson(Map<String, dynamic> json) => DailyUnits(
       time: json['time'] as String?,
-      temperature2M: json['temperature_2m'] as String?,
+      temperature2M: json['temperature_2m_max'] as String?,
     );
 
-Map<String, dynamic> _$HourlyUnitsToJson(HourlyUnits instance) =>
+Map<String, dynamic> _$DailyUnitsToJson(DailyUnits instance) =>
     <String, dynamic>{
       'time': instance.time,
-      'temperature_2m': instance.temperature2M,
+      'temperature_2m_max': instance.temperature2M,
     };

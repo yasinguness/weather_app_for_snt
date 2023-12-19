@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:weather_app_for_snt/network/model/country/country_model.dart';
 import 'package:weather_app_for_snt/network/model/weather/weather_model.dart';
 import 'package:weather_app_for_snt/network/services/country/country_service.dart';
@@ -9,18 +11,33 @@ class WeatherViewModel extends BaseViewModel {
   final WeatherService weatherService;
   final CountryService countryService;
 
-  List<CountryModel> countryList = [];
-  List<WeatherModel> hourlyList = [];
+  List<Datum> countryList = [];
+  WeatherModel? dailyModel;
+
+  Datum? currentModel;
+
+  Future<void> init() async {
+    await getAllCountry();
+    await getHourly(currentModel?.coordinates?.latitude ?? 0, currentModel?.coordinates?.longitude ?? 0);
+  }
 
   Future<void> getAllCountry() async {
     setLoading(true);
-    countryList = await countryService.getAllCountry();
+    final resposne = await countryService.getAllCountry();
+    countryList = resposne.data ?? [];
+    currentModel = countryList.first;
     setLoading(false);
   }
 
-  Future<void> getHourly() async {
+  Future<void> getHourly(double lat, double long) async {
     setLoading(true);
-    hourlyList = await weatherService.dailyWeather();
+    dailyModel = await weatherService.dailyWeather(lat, long);
     setLoading(false);
+  }
+
+  Future<void> changeCity(Datum newCountry) async {
+    currentModel = newCountry;
+    getHourly(currentModel?.coordinates?.latitude ?? 0, currentModel?.coordinates?.longitude ?? 0);
+    notifyListeners();
   }
 }

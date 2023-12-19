@@ -16,5 +16,6 @@ class CustomThemeData {
       iconTheme: IconThemeData(color: AppColors.black),
     ), */
       textTheme: _TextTheme.instance.textTheme,
+      colorSchemeSeed: const Color.fromARGB(255, 62, 102, 181),
       useMaterial3: true);
 }
