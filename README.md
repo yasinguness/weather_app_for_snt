@@ -14,6 +14,6 @@ Weather app for Snt Software
 
 <h2> Screenshots </h2>
 
-![alt text](https://raw.github.com/{yasinguness}/{weather_app_for_snt}/{main}/{screenshot/ss1.png})
+<img src="https://drive.google.com/file/d/1jS_2P3LXtt6f5ZTmb6Fr-RQLhkPdvpxr/view?usp=drive_link" alt="alt text" width="180" height="360">
 
 Note: Projeyi kodlarken aktif olarak çalıştığım için zaman sıkıntısından dolayı UI' dan ziyade fonksiyonelliği ön plana çıkarılmaya çalışılmıştır. 
