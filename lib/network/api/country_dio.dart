@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:weather_app_for_snt/common/base/api_const.dart';
-import 'package:weather_app_for_snt/network/api/base_methods.dart';
+import 'package:weather_app_for_snt/network/api/base/base_methods.dart';
 
 class CountryDio extends BaseMethods implements Dio {
   CountryDio._init() {
-    String baseUrl = ApiConst.country;
+    const baseUrl = ApiConst.country;
 
     options = BaseOptions(
       baseUrl: baseUrl,

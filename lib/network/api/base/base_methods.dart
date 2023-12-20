@@ -4,8 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:weather_app_for_snt/common/enum/dio_enum.dart';
 import 'package:weather_app_for_snt/network/model/base/base_model.dart';
 
+/// Bu tür bir base yapısı tasarlayarak, tekrarlanan kodları azaltmayı,
+/// requestleri ve responseleri merkezi bir şekilde yönetmeyi sağlamayı amaçladım.
+/// Bu sayede,requestleri yönetmek ve gelen responseleri modele dönüştürmek
+/// kolaylaştı.
+///Ayrıca, error handlinge yönelik genel bir yaklaşım sağladım ve kodum daha okunabilir,
+///bakımı daha kolay hale geldi.
 class BaseMethods with DioMixin {
-  Future<dynamic> make<T extends BaseModel>(
+  Future<dynamic> make<T extends BaseModel<T>>(
     String path, {
     required T parserModel,
     required MethodType method,
@@ -17,7 +23,7 @@ class BaseMethods with DioMixin {
   }) async {
     final options = Options();
     options.method = getMethodType(method);
-    final body = getBodyModel(data);
+    final body = getBodyModel<T>(data);
 
     try {
       final response = await request(path, data: body, options: options);
@@ -36,7 +42,7 @@ class BaseMethods with DioMixin {
     }
   }
 
-  dynamic getBodyModel(dynamic data) {
+  dynamic getBodyModel<T>(dynamic data) {
     if (data == null) {
       return data;
     } else if (data is BaseModel) {
@@ -48,12 +54,12 @@ class BaseMethods with DioMixin {
     return null;
   }
 
-  dynamic parseBody<T extends BaseModel>(dynamic responseBody, T model) {
+  dynamic parseBody<T extends BaseModel<T>>(dynamic responseBody, T model) {
     try {
       if (responseBody is List) {
-        return responseBody.map((data) => model.fromJson(data)).cast<T>().toList();
+        return responseBody.map((data) => model.fromJson(data as Map<String, dynamic>)).cast<T>().toList();
       } else if (responseBody is Map<String, Object>) {
-        return model.fromJson(responseBody) as T;
+        return model.fromJson(responseBody);
       } else {
         return responseBody;
       }

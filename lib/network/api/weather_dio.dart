@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:weather_app_for_snt/common/base/api_const.dart';
-import 'package:weather_app_for_snt/common/enum/dio_enum.dart';
-import 'package:weather_app_for_snt/network/api/base_methods.dart';
-import 'package:weather_app_for_snt/network/model/base/base_model.dart';
+import 'package:weather_app_for_snt/network/api/base/base_methods.dart';
 
 class WeatherDio extends BaseMethods implements Dio {
   WeatherDio._init() {
-    String baseUrl = ApiConst.weather;
+    const baseUrl = ApiConst.weather;
 
     options = BaseOptions(
       baseUrl: baseUrl,
