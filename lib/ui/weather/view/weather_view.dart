@@ -8,6 +8,7 @@ import 'package:weather_app_for_snt/common/widget/custom_drop_down_item.dart';
 import 'package:weather_app_for_snt/common/widget/custom_indicator.dart';
 import 'package:weather_app_for_snt/common/widget/weather_card.dart';
 import 'package:weather_app_for_snt/network/model/country/country_model.dart';
+import 'package:weather_app_for_snt/network/model/hourly/hourly_model.dart';
 import 'package:weather_app_for_snt/ui/home/viewModel/home_view_model.dart';
 import 'package:weather_app_for_snt/ui/weather/view/mixin/weather_mixin.dart';
 
@@ -19,7 +20,7 @@ class WeatherView extends StatelessWidget with WeatherMixin {
       builder: (context, model, child) => model.isLoading
           ? const CustomCircularIndicator()
           : Column(
-              children: [_header(context, model), _dailyItems(context, model)],
+              children: [_header(context, model), _dailyItems(context, model), _hourlyItems(context, model)],
             ),
     );
   }
@@ -107,15 +108,41 @@ class WeatherView extends StatelessWidget with WeatherMixin {
       crossAxisCount: 4,
       children: List.generate(
         4,
-        (index) => Padding(
-          padding: context.padding.onlyRightLow,
-          child: WeatherCard(
-            asset: ImageAssetEnum.rainy.getAsset(),
-            day: days[index],
-            status: '${model.dailyModel?.daily?.temperature2M?[index]} ${model.dailyModel?.dailyUnits?.temperature2M}',
-          ),
-        ),
+        (index) {
+          return Padding(
+            padding: context.padding.onlyRightLow,
+            child: WeatherCard(
+              asset: ImageAssetEnum.rainy.getAsset(),
+              day: days[index],
+              status:
+                  '${model.dailyModel?.daily?.temperature2M?[index]} ${model.dailyModel?.dailyUnits?.temperature2M}',
+            ),
+          );
+        },
       ),
+    );
+  }
+
+  Padding _hourlyItems(BuildContext context, HomeViewModel model) {
+    return Padding(
+      padding: context.padding.medium / 2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _hourlyTitle(context),
+          HourlyGrid(context: context, texts: hours, model: model.hourlyModel ?? HourlyModel()),
+        ],
+      ),
+    );
+  }
+
+  Text _hourlyTitle(BuildContext context) {
+    return Text(
+      'Hourly Forecast',
+      style: Theme.of(context)
+          .textTheme
+          .bodySmall
+          ?.copyWith(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600),
     );
   }
 }

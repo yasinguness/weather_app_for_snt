@@ -1,5 +1,6 @@
 import 'package:weather_app_for_snt/common/manager/locale_manager.dart';
 import 'package:weather_app_for_snt/network/model/country/country_model.dart';
+import 'package:weather_app_for_snt/network/model/hourly/hourly_model.dart';
 import 'package:weather_app_for_snt/network/model/weather/weather_model.dart';
 import 'package:weather_app_for_snt/network/services/country/country_service.dart';
 import 'package:weather_app_for_snt/network/services/weather/weather_service.dart';
@@ -22,13 +23,16 @@ class HomeViewModel extends BaseViewModel {
   List<Datum> countryList = [];
 
   WeatherModel? dailyModel;
+  HourlyModel? hourlyModel;
+
   int selectedIndex = 0;
 
   Datum? currentModel;
   bool? isTemperature;
   Future<void> init() async {
     await getAllCountry();
-    await getDaily(/* currentModel?.coordinates?.latitude ?? 0, currentModel?.coordinates?.longitude ?? 0 */);
+    await getDaily();
+    await getHourly();
   }
 
   Future<void> getAllCountry() async {
@@ -50,9 +54,21 @@ class HomeViewModel extends BaseViewModel {
     setLoading(false);
   }
 
+  Future<void> getHourly() async {
+    setLoading(true);
+    isTemperature = _localeManager.getBoolValue(PreferencesKeys.Temperature);
+    hourlyModel = await weatherService.hourlyWeathers(
+      currentModel?.coordinates?.latitude ?? 0,
+      currentModel?.coordinates?.longitude ?? 0,
+      isTemperature ?? false,
+    );
+    setLoading(false);
+  }
+
   Future<void> changeCity(Datum newCountry) async {
     currentModel = newCountry;
     await getDaily();
+    await getHourly();
     notifyListeners();
   }
 

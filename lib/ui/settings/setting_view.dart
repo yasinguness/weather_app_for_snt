@@ -57,6 +57,7 @@ class SettingsView extends StatelessWidget {
   Future<void> _onChangedFunc(HomeViewModel model, bool? value) async {
     model.changeTemperature(value ?? false);
     await model.getDaily();
+    await model.getHourly();
   }
 }
 

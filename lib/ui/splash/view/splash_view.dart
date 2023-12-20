@@ -19,7 +19,7 @@ class _SplashViewState extends State<SplashView> {
     _determinePosition();
     LocaleManager.prefrencesInit();
     Future.delayed(
-      const Duration(milliseconds: 1000),
+      const Duration(milliseconds: 2000),
       () {
         LocaleManager.instance.setBooleanValue(PreferencesKeys.Temperature, false);
 
